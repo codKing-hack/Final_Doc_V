@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+// Triggers restart
 import path from "path";
 import session from "express-session";
 import bcrypt from "bcrypt";
@@ -13,6 +14,8 @@ import qrcode from 'qrcode';
 import MongoStore from "connect-mongodb-session";
 import pinataSDK from '@pinata/sdk';
 import stream from 'stream';
+import nodemailer from 'nodemailer';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +28,7 @@ console.log('🔧 Environment variables loaded:');
 console.log('- MONGODB_URI:', process.env.MONGODB_URI ? '✅ Set' : '❌ Missing');
 console.log('- PINATA_API_KEY:', process.env.PINATA_API_KEY ? '✅ Set' : '❌ Missing');
 console.log('- PINATA_SECRET_API_KEY:', process.env.PINATA_SECRET_API_KEY ? '✅ Set' : '❌ Missing');
+console.log('- GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? '✅ Set' : '❌ Missing');
 console.log('- WEB3_PROVIDER_URL:', process.env.WEB3_PROVIDER_URL ? '✅ Set' : '❌ Missing');
 console.log('- ACCOUNT_ADDRESS:', process.env.ACCOUNT_ADDRESS ? '✅ Set' : '❌ Missing');
 console.log('- PRIVATE_KEY:', process.env.PRIVATE_KEY ? '✅ Set' : '❌ Missing');
@@ -145,22 +149,12 @@ async function sendHashToBlockchain(fileHash) {
         return null;
     }
 }
-// --- Tesseract.js Worker Initialization (improved) ---
-let worker;
-let workerReady = false;
+// --- Gemini AI Setup ---
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// FIX: Force API version to v1beta for gemini-1.5-flash compatibility
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }, { apiVersion: "v1beta" });
 
-(async () => {
-    try {
-        worker = await createWorker('eng');
-        // Note: loadLanguage and initialize are deprecated in newer versions
-        // Workers now come pre-loaded and pre-initialized
-        workerReady = true;
-        console.log(" Tesseract.js worker initialized successfully.");
-    } catch (err) {
-        console.error(" Error initializing Tesseract.js worker:", err.message || err);
-        workerReady = false;
-    }
-})();
+// Tesseract Worker removed in favor of Gemini
 
 // Helper function to ensure worker is ready
 async function ensureWorkerReady() {
@@ -227,6 +221,22 @@ const settingsSchema = new mongoose.Schema({
 });
 const UserSettings = mongoose.model("UserSettings", settingsSchema, "user_settings");
 
+const otpSchema = new mongoose.Schema({
+    email: { type: String, required: true },
+    otp: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now, expires: 300 } // Expires in 5 minutes
+});
+const OTP = mongoose.model("OTP", otpSchema);
+
+// --- EMAIL TRANSPORTER ---
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
 // --- Middleware (omitted for brevity) ---
 function isAuthenticated(req, res, next) {
     if (req.session.userId) return next();
@@ -238,6 +248,71 @@ function isAuthenticated(req, res, next) {
 // ----------------------------------------------------
 
 // Authentication Routes (omitted for brevity)
+app.post("/api/auth/send-email-otp", async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    try {
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        // Remove existing OTP for this email
+        await OTP.deleteMany({ email });
+        
+        // Save new OTP
+        await new OTP({ email, otp }).save();
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Your Document Portal Verification Code',
+            text: `Your verification code is: ${otp}\n\nThis code will expire in 5 minutes.`
+        };
+
+        console.log(`🔧 Attempting to send email...`);
+        console.log(`Sender: ${process.env.EMAIL_USER}`);
+        console.log(`Password configured: ${process.env.EMAIL_PASS ? 'Yes' : 'No'} (Length: ${process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 0})`);
+        
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`📧 OTP sent via Gmail to ${email}`);
+            res.json({ message: "OTP sent successfully" });
+        } catch (emailError) {
+            console.error("❌ Gmail Send Failed:", emailError.message);
+            console.log("⚠️ FALLBACK MODE ACTIVATED");
+            console.log(`🔒 YOUR OTP CODE IS: ${otp}`);
+            console.log("⚠️ Use this code to verify (since email failed).");
+            
+            // Return success anyway so frontend works
+            res.json({ 
+                message: "Email failed, check terminal for OTP (Dev Mode)", 
+                devOtp: otp 
+            });
+        }
+    } catch (error) {
+        console.error("System error:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+app.post("/api/auth/verify-email-otp", async (req, res) => {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ message: "Email and OTP are required" });
+
+    try {
+        const record = await OTP.findOne({ email, otp });
+        if (!record) {
+            return res.status(400).json({ message: "Invalid or expired verification code" });
+        }
+        
+        // Delete OTP after successful verification
+        await OTP.deleteOne({ _id: record._id });
+        
+        res.json({ message: "Email verified successfully" });
+    } catch (error) {
+        console.error("OTP verification error:", error);
+        res.status(500).json({ message: "Verification failed" });
+    }
+});
 app.post("/api/auth/signup", async (req, res) => {
     const { fullName, email, password, phone } = req.body;
     try {
@@ -347,12 +422,8 @@ app.post("/api/profile/link-wallet", isAuthenticated, async (req, res) => {
 
 // Document Verification Route (omitted for brevity)
 app.post("/api/verify", isAuthenticated, upload.single("document"), async (req, res) => {
-    try {
-        // Check if worker is ready
-        await ensureWorkerReady();
-    } catch (error) {
-        return res.status(503).json({ message: error.message });
-    }
+        // Gemini is stateless, no worker check needed
+
 
     const { docType, docNumber } = req.body;
     const userId = new mongoose.Types.ObjectId(req.session.userId);
@@ -412,17 +483,45 @@ app.post("/api/verify", isAuthenticated, upload.single("document"), async (req, 
 
         // --- STEP 2: PROCEED WITH NEW VERIFICATION (If no existing record found) ---
 
-        // --- 2.1 OCR AND HASHING ---
+        // --- 2.1 GEMINI AI EXTRACTION ---
         let text = '';
+        let extractedDocNumber = null;
+
         try {
-            const result = await worker.recognize(req.file.buffer);
-            text = result.data.text;
-            console.log("OCR Extracted Text:", text);
-        } catch (ocrError) {
-            console.error("OCR Recognition Error:", ocrError.message);
+            console.log("🤖 Asking Gemini to analyze document...");
+            const imageBase64 = req.file.buffer.toString('base64');
+            
+            // Allow png/jpeg/etc.
+            const mimeType = req.file.mimetype || 'image/png'; 
+
+            const prompt = `Analyze this document image. Return a JSON object with keys: "docType", "docNumber", and "fullText".`;
+
+            const result = await model.generateContent([
+                prompt,
+                { inlineData: { data: imageBase64, mimeType: mimeType } }
+            ]);
+            
+            const responseText = result.response.text();
+            const cleanJson = responseText.replace(/```json|```/g, '').trim();
+            
+            let extraction = {};
+            try {
+                extraction = JSON.parse(cleanJson);
+            } catch (e) {
+                console.log("Non-JSON response from Gemini, using raw text");
+                extraction = { fullText: responseText };
+            }
+            
+            text = extraction.fullText || responseText || '';
+            extractedDocNumber = extraction.docNumber;
+            
+            console.log("Gemini Extracted:", extraction);
+
+        } catch (aiError) {
+            console.error("Gemini Processing Error:", aiError.message);
             return res.status(500).json({ 
-                message: "OCR processing failed. Please ensure the document is clear and readable.",
-                error: ocrError.message 
+                message: "AI analysis failed. Please ensure the image is clear.",
+                error: aiError.message 
             });
         }
 
@@ -452,7 +551,11 @@ app.post("/api/verify", isAuthenticated, upload.single("document"), async (req, 
 
         // --- 2.3 AUTHORIZATION AND BLOCKCHAIN ---
 
-        const docNumberFoundInText = text.includes(docNumber);
+        // Helper to normalize strings (remove spaces/special chars, lowercase)
+        const normalize = (str) => str ? str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() : '';
+        
+        const docNumberFoundInText = (extractedDocNumber && normalize(extractedDocNumber) === normalize(docNumber)) 
+                                     || (text && text.includes(docNumber));
 
 
 

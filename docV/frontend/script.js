@@ -78,6 +78,93 @@ const COUNTRY_CODES = [
     { name: "Fiji", code: "FJ", dial_code: "+679", flag: "🇫🇯" },
     { name: "Finland", code: "FI", dial_code: "+358", flag: "🇫🇮" },
     { name: "France", code: "FR", dial_code: "+33", flag: "🇫🇷" },
+    { name: "French Guiana", code: "GF", dial_code: "+594", flag: "🇬🇫" },
+    { name: "French Polynesia", code: "PF", dial_code: "+689", flag: "🇵🇫" },
+    { name: "Gabon", code: "GA", dial_code: "+241", flag: "🇬🇦" },
+    { name: "Gambia", code: "GM", dial_code: "+220", flag: "🇬🇲" },
+    { name: "Georgia", code: "GE", dial_code: "+995", flag: "🇬🇪" },
+    { name: "Germany", code: "DE", dial_code: "+49", flag: "🇩🇪" },
+    { name: "Ghana", code: "GH", dial_code: "+233", flag: "🇬🇭" },
+    { name: "Gibraltar", code: "GI", dial_code: "+350", flag: "🇬🇮" },
+    { name: "Greece", code: "GR", dial_code: "+30", flag: "🇬🇷" },
+    { name: "Greenland", code: "GL", dial_code: "+299", flag: "🇬🇱" },
+    { name: "Grenada", code: "GD", dial_code: "+1473", flag: "🇬🇩" },
+    { name: "Guadeloupe", code: "GP", dial_code: "+590", flag: "🇬🇵" },
+    { name: "Guam", code: "GU", dial_code: "+1671", flag: "🇬🇺" },
+    { name: "Guatemala", code: "GT", dial_code: "+502", flag: "🇬🇹" },
+    { name: "Guernsey", code: "GG", dial_code: "+44", flag: "🇬🇬" },
+    { name: "Guinea", code: "GN", dial_code: "+224", flag: "🇬🇳" },
+    { name: "Guinea-Bissau", code: "GW", dial_code: "+245", flag: "🇬🇼" },
+    { name: "Guyana", code: "GY", dial_code: "+592", flag: "🇬🇾" },
+    { name: "Haiti", code: "HT", dial_code: "+509", flag: "🇭🇹" },
+    { name: "Honduras", code: "HN", dial_code: "+504", flag: "🇭🇳" },
+    { name: "Hong Kong", code: "HK", dial_code: "+852", flag: "🇭🇰" },
+    { name: "Hungary", code: "HU", dial_code: "+36", flag: "🇭🇺" },
+    { name: "Iceland", code: "IS", dial_code: "+354", flag: "🇮🇸" },
+    { name: "India", code: "IN", dial_code: "+91", flag: "🇮🇳" },
+    { name: "Indonesia", code: "ID", dial_code: "+62", flag: "🇮🇩" },
+    { name: "Iran", code: "IR", dial_code: "+98", flag: "🇮🇷" },
+    { name: "Iraq", code: "IQ", dial_code: "+964", flag: "🇮🇶" },
+    { name: "Ireland", code: "IE", dial_code: "+353", flag: "🇮🇪" },
+    { name: "Isle of Man", code: "IM", dial_code: "+44", flag: "🇮🇲" },
+    { name: "Israel", code: "IL", dial_code: "+972", flag: "🇮🇱" },
+    { name: "Italy", code: "IT", dial_code: "+39", flag: "🇮🇹" },
+    { name: "Ivory Coast", code: "CI", dial_code: "+225", flag: "🇨🇮" },
+    { name: "Jamaica", code: "JM", dial_code: "+1876", flag: "🇯🇲" },
+    { name: "Japan", code: "JP", dial_code: "+81", flag: "🇯🇵" },
+    { name: "Jersey", code: "JE", dial_code: "+44", flag: "🇯🇪" },
+    { name: "Jordan", code: "JO", dial_code: "+962", flag: "🇯🇴" },
+    { name: "Kazakhstan", code: "KZ", dial_code: "+7", flag: "🇰🇿" },
+    { name: "Kenya", code: "KE", dial_code: "+254", flag: "🇰🇪" },
+    { name: "Kiribati", code: "KI", dial_code: "+686", flag: "🇰🇮" },
+    { name: "Kosovo", code: "XK", dial_code: "+383", flag: "🇽🇰" },
+    { name: "Kuwait", code: "KW", dial_code: "+965", flag: "🇰🇼" },
+    { name: "Kyrgyzstan", code: "KG", dial_code: "+996", flag: "🇰🇬" },
+    { name: "Laos", code: "LA", dial_code: "+856", flag: "🇱🇦" },
+    { name: "Latvia", code: "LV", dial_code: "+371", flag: "🇱🇻" },
+    { name: "Lebanon", code: "LB", dial_code: "+961", flag: "🇱🇧" },
+    { name: "Lesotho", code: "LS", dial_code: "+266", flag: "🇱🇸" },
+    { name: "Liberia", code: "LR", dial_code: "+231", flag: "🇱🇷" },
+    { name: "Libya", code: "LY", dial_code: "+218", flag: "🇱🇾" },
+    { name: "Liechtenstein", code: "LI", dial_code: "+423", flag: "🇱🇮" },
+    { name: "Lithuania", code: "LT", dial_code: "+370", flag: "🇱🇹" },
+    { name: "Luxembourg", code: "LU", dial_code: "+352", flag: "🇱🇺" },
+    { name: "Macau", code: "MO", dial_code: "+853", flag: "🇲🇴" },
+    { name: "Madagascar", code: "MG", dial_code: "+261", flag: "🇲🇬" },
+    { name: "Malawi", code: "MW", dial_code: "+265", flag: "🇲🇼" },
+    { name: "Malaysia", code: "MY", dial_code: "+60", flag: "🇲🇾" },
+    { name: "Maldives", code: "MV", dial_code: "+960", flag: "🇲🇻" },
+    { name: "Mali", code: "ML", dial_code: "+223", flag: "🇲🇱" },
+    { name: "Malta", code: "MT", dial_code: "+356", flag: "🇲🇹" },
+    { name: "Marshall Islands", code: "MH", dial_code: "+692", flag: "🇲🇭" },
+    { name: "Martinique", code: "MQ", dial_code: "+596", flag: "🇲🇶" },
+    { name: "Mauritania", code: "MR", dial_code: "+222", flag: "🇲🇷" },
+    { name: "Mauritius", code: "MU", dial_code: "+230", flag: "🇲🇺" },
+    { name: "Mayotte", code: "YT", dial_code: "+262", flag: "🇾🇹" },
+    { name: "Mexico", code: "MX", dial_code: "+52", flag: "🇲🇽" },
+    { name: "Micronesia", code: "FM", dial_code: "+691", flag: "🇫🇲" },
+    { name: "Moldova", code: "MD", dial_code: "+373", flag: "🇲🇩" },
+    { name: "Monaco", code: "MC", dial_code: "+377", flag: "🇲🇨" },
+    { name: "Mongolia", code: "MN", dial_code: "+976", flag: "🇲🇳" },
+    { name: "Montenegro", code: "ME", dial_code: "+382", flag: "🇲🇪" },
+    { name: "Montserrat", code: "MS", dial_code: "+1664", flag: "🇲🇸" },
+    { name: "Morocco", code: "MA", dial_code: "+212", flag: "🇲🇦" },
+    { name: "Mozambique", code: "MZ", dial_code: "+258", flag: "🇲🇿" },
+    { name: "Myanmar", code: "MM", dial_code: "+95", flag: "🇲🇲" },
+    { name: "Namibia", code: "NA", dial_code: "+264", flag: "🇳🇦" },
+    { name: "Nauru", code: "NR", dial_code: "+674", flag: "🇳🇷" },
+    { name: "Nepal", code: "NP", dial_code: "+977", flag: "🇳🇵" },
+    { name: "Netherlands", code: "NL", dial_code: "+31", flag: "🇳🇱" },
+    { name: "New Caledonia", code: "NC", dial_code: "+687", flag: "🇳🇨" },
+    { name: "New Zealand", code: "NZ", dial_code: "+64", flag: "🇳🇿" },
+    { name: "Nicaragua", code: "NI", dial_code: "+505", flag: "🇳🇮" },
+    { name: "Niger", code: "NE", dial_code: "+227", flag: "🇳🇪" },
+    { name: "Nigeria", code: "NG", dial_code: "+234", flag: "🇳🇬" },
+    { name: "Niue", code: "NU", dial_code: "+683", flag: "🇳🇺" },
+    { name: "Norfolk Island", code: "NF", dial_code: "+672", flag: "🇳🇫" },
+    { name: "North Korea", code: "KP", dial_code: "+850", flag: "🇰🇵" },
+    { name: "North Macedonia", code: "MK", dial_code: "+389", flag: "🇲🇰" },
+    { name: "Northern Mariana Islands", code: "MP", dial_code: "+1670", flag: "🇲🇵" },
     { name: "Norway", code: "NO", dial_code: "+47", flag: "🇳🇴" },
     { name: "Oman", code: "OM", dial_code: "+968", flag: "🇴🇲" },
     { name: "Pakistan", code: "PK", dial_code: "+92", flag: "🇵🇰" },
@@ -315,6 +402,12 @@ function togglePasswordVisibility(inputId) {
 /**
  * Send OTP to email (Mock)
  */
+/**
+ * Send OTP to email
+ */
+/**
+ * Send OTP to email (Simulated)
+ */
 function sendEmailOTP() {
     const emailInput = document.getElementById('signup-email');
     const email = emailInput.value;
@@ -336,14 +429,11 @@ function sendEmailOTP() {
     btn.classList.add('opacity-50', 'cursor-not-allowed');
     
     showToast(`Verification code sent to ${email}`, 'success');
-    // Simulate email arrival
-    setTimeout(() => {
-        alert(`DEMO MODE: Your verification code is ${generatedOTP}`);
-    });
     
-    // Remove after 4.5 seconds (simulated)
-    // In demo mode, we just alert
-    // Correctly close sendEmailOTP:
+    // Simulate email arrival with popup
+    setTimeout(() => {
+        alert(`Your Verification Code is: ${generatedOTP}`);
+    }, 1000);
 }
 
 // ============================================
@@ -352,6 +442,12 @@ function sendEmailOTP() {
 
 /**
  * Verify entered OTP
+ */
+/**
+ * Verify entered OTP
+ */
+/**
+ * Verify entered OTP (Simulated)
  */
 function verifyEmailOTP() {
     const input = document.getElementById('email-otp-input');
@@ -534,6 +630,7 @@ function showDashboardSection(sectionId) {
         'analytics': 'Analytics Dashboard',
         'verify': 'Verify Document',
         'qrVerification': 'QR Scanner',
+        'share': 'Share Document',
         'profile': 'My Profile',
         'settings': 'Settings'
     };
@@ -590,6 +687,47 @@ function showDashboardSection(sectionId) {
 // --- AUTHENTICATION FUNCTIONS ---
 
 /**
+ * Check password strength
+ * @param {string} password 
+ * @returns {boolean} valid
+ */
+function checkPasswordStrength(password) {
+    const requirements = {
+        length: password.length >= 6,
+        upper: /[A-Z]/.test(password),
+        lower: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    const updateUI = (reqId, valid) => {
+        const el = document.getElementById(reqId);
+        if (!el) return;
+        
+        const dot = el.querySelector('span');
+        if (valid) {
+            el.classList.remove('text-slate-500');
+            el.classList.add('text-green-600');
+            dot.classList.remove('bg-slate-300');
+            dot.classList.add('bg-green-600');
+        } else {
+            el.classList.add('text-slate-500');
+            el.classList.remove('text-green-600');
+            dot.classList.add('bg-slate-300');
+            dot.classList.remove('bg-green-600');
+        }
+    };
+
+    updateUI('req-length', requirements.length);
+    updateUI('req-upper', requirements.upper);
+    updateUI('req-lower', requirements.lower);
+    updateUI('req-number', requirements.number);
+    updateUI('req-special', requirements.special);
+
+    return Object.values(requirements).every(Boolean);
+}
+
+/**
  * Handle user signup
  * @param {Event} e - Form submit event
  */
@@ -603,6 +741,13 @@ async function handleSignup(e) {
     const password = formData.get('password');
     const confirmPassword = document.getElementById('signup-confirm-password').value;
     
+    // Check password strength
+    if (!checkPasswordStrength(password)) {
+        showAuthError('Password does not meet connection requirements');
+        toggleLoading(false);
+        return;
+    }
+
     if (password !== confirmPassword) {
         showAuthError('Passwords do not match');
         toggleLoading(false);
@@ -880,6 +1025,10 @@ function loadDashboardSection(sectionId) {
         case 'settings':
             content.innerHTML = getSettingsHTML();
             break;
+        case 'share':
+            content.innerHTML = getShareDocumentHTML();
+            setupShareDocument();
+            break;
         default:
             content.innerHTML = getDashboardOverviewHTML();
     }
@@ -1153,7 +1302,7 @@ function getDocumentInventoryHTML() {
                             </button>
                         </div>
                     ` : docs.map(doc => `
-                        <div class="p-6 hover:bg-slate-50 transition-colors document-card cursor-pointer" onclick="viewDocument('${doc.id}')">
+                        <div class="p-6 hover:bg-slate-50 transition-colors document-card ${doc.status === 'Rejected' ? '' : 'cursor-pointer'}" onclick="${doc.status === 'Rejected' ? `showToast('This document has been rejected', 'error')` : `viewDocument('${doc.id}')`}">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-4">
                                     <div class="text-3xl">${getStatusIcon(doc.status)}</div>
@@ -2305,6 +2454,11 @@ async function viewDocument(docId) {
         showToast('Document not found', 'error');
         return;
     }
+
+    if (doc.status === 'Rejected') {
+        showToast('This document has been rejected and cannot be viewed', 'error');
+        return;
+    }
     
     console.log('Found document:', doc);
     
@@ -2633,6 +2787,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (signupForm) {
         signupForm.addEventListener('submit', handleSignup);
+        // Add password strength listener
+        const passwordInput = document.getElementById('signup-password');
+        if (passwordInput) {
+            passwordInput.addEventListener('input', (e) => checkPasswordStrength(e.target.value));
+        }
     }
     
     // Setup responsive sidebar
@@ -2653,3 +2812,330 @@ window.switchAuthTab = switchAuthTab;
 window.toggleSidebar = toggleSidebar;
 window.showDashboardSection = showDashboardSection;
 window.handleLogout = handleLogout;
+
+// ==========================================
+// SHARE DOCUMENT FEATURE
+// ==========================================
+
+const IITS = [
+    'IIT Kharagpur', 'IIT Bombay', 'IIT Madras', 'IIT Kanpur', 'IIT Delhi', 
+    'IIT Guwahati', 'IIT Roorkee', 'IIT Ropar', 'IIT Bhubaneswar', 'IIT Gandhinagar', 
+    'IIT Hyderabad', 'IIT Jodhpur', 'IIT Patna', 'IIT Indore', 'IIT Mandi', 
+    'IIT (BHU) Varanasi', 'IIT (ISM) Dhanbad', 'IIT Palakkad', 'IIT Tirupati', 
+    'IIT Jammu', 'IIT Bhilai', 'IIT Goa', 'IIT Dharwad'
+];
+
+const NITS = [
+    'NIT Tiruchirappalli (Trichy)', 'NIT Karnataka (Surathkal)', 'NIT Rourkela', 'NIT Warangal', 
+    'NIT Calicut', 'NIT Nagpur (VNIT)', 'NIT Silchar', 'NIT Jaipur (MNIT)', 'NIT Durgapur', 
+    'NIT Delhi', 'NIT Jamshedpur', 'NIT Kurukshetra', 'NIT Allahabad (MNNIT)', 'NIT Agartala', 
+    'NIT Raipur', 'NIT Bhopal (MANIT)', 'NIT Srinagar', 'NIT Jalandhar (Dr. B.R. Ambedkar)', 
+    'NIT Patna', 'NIT Goa', 'NIT Puducherry', 'NIT Uttarakhand', 'NIT Mizoram', 'NIT Meghalaya', 
+    'NIT Manipur', 'NIT Nagaland', 'NIT Arunachal Pradesh', 'NIT Sikkim', 'NIT Andhra Pradesh', 
+    'NIT Hamirpur', 'IIEST Shibpur'
+];
+
+const IIITS = [
+    'IIIT Allahabad', 'IIIT Gwalior (ABV-IIITM)', 'IIIT Jabalpur (IIITDM)', 'IIIT Kancheepuram (IIITDM)', 
+    'IIIT Hyderabad', 'IIIT Bangalore', 'IIIT Guwahati', 'IIIT Vadodara', 'IIIT Kota', 
+    'IIIT Tiruchirappalli', 'IIIT Una', 'IIIT Sonepat', 'IIIT Kalyani', 'IIIT Lucknow', 
+    'IIIT Dharwad', 'IIIT Kurnool (IIITDM)', 'IIIT Kottayam', 'IIIT Manipur', 'IIIT Nagpur', 
+    'IIIT Pune', 'IIIT Ranchi', 'IIIT Surat', 'IIIT Bhopal', 'IIIT Bhagalpur', 'IIIT Agartala', 
+    'IIIT Raichur'
+];
+
+function getShareDocumentHTML() {
+    return `
+        <div class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
+                        📤 Share Document
+                    </h1>
+                    <p class="text-slate-600 mt-1">
+                        Temporarily share your verified documents with institutes (48-hour access)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Active Shares Section -->
+            <div id="active-shares-container" class="space-y-4 hidden">
+                <h3 class="text-lg font-semibold text-slate-800">Active Shares</h3>
+                <div id="active-shares-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- Categories Tabs -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                <div class="flex border-b border-slate-100">
+                    <button onclick="switchShareTab('iits')" id="tab-iits" class="flex-1 px-6 py-4 text-sm font-medium text-brand-600 border-b-2 border-brand-600 bg-brand-50 transition-colors">
+                        IITs
+                    </button>
+                    <button onclick="switchShareTab('nits')" id="tab-nits" class="flex-1 px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
+                        NITs
+                    </button>
+                    <button onclick="switchShareTab('iiits')" id="tab-iiits" class="flex-1 px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
+                        IIITs
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div id="list-iits" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <div id="list-nits" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <div id="list-iiits" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="share-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 animate-scale-in">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Grant Access</h3>
+                <p class="text-slate-600 mb-6">Select a document to share with <span id="modal-institute-name" class="font-semibold text-brand-600"></span>.</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Select Document</label>
+                        <select id="share-doc-select" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            <option value="">-- Choose a document --</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 flex gap-3">
+                        <div class="text-amber-500">⚠️</div>
+                        <p class="text-xs text-amber-700">
+                            Access will be valid for <strong>48 hours</strong> only. You will need to sign a transaction to confirm.
+                        </p>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button onclick="closeShareModal()" class="flex-1 px-4 py-2 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 font-medium transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="confirmShare()" class="flex-1 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 font-medium shadow-lg shadow-brand-500/20 transition-all transform hover:-translate-y-0.5">
+                            Give Access
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function setupShareDocument() {
+    renderShareSections();
+    updateTimers();
+    setInterval(updateTimers, 1000);
+    
+    // Switch to first tab by default
+    switchShareTab('iits'); 
+}
+
+function renderShareSections() {
+    const createCard = (name) => `
+        <div class="p-4 rounded-xl border border-slate-200 hover:border-brand-200 hover:shadow-md transition-all bg-white group">
+            <div class="flex items-start justify-between mb-3">
+                <div class="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center text-xl group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                    🏛️
+                </div>
+                <button onclick="handleGiveAccess('${name}')" class="text-xs font-medium text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-full transition-colors">
+                    Give Access
+                </button>
+            </div>
+            <h4 class="font-medium text-slate-800 text-sm">${name}</h4>
+        </div>
+    `;
+
+    document.getElementById('list-iits').innerHTML = IITS.map(createCard).join('');
+    document.getElementById('list-nits').innerHTML = NITS.map(createCard).join('');
+    document.getElementById('list-iiits').innerHTML = IIITS.map(createCard).join('');
+}
+
+function switchShareTab(tabId) {
+    // Buttons
+    ['iits', 'nits', 'iiits'].forEach(id => {
+        const btn = document.getElementById(`tab-${id}`);
+        const list = document.getElementById(`list-${id}`);
+        
+        if (id === tabId) {
+            btn.classList.add('text-brand-600', 'border-b-2', 'border-brand-600', 'bg-brand-50');
+            btn.classList.remove('text-slate-500');
+            list.classList.remove('hidden');
+        } else {
+            btn.classList.remove('text-brand-600', 'border-b-2', 'border-brand-600', 'bg-brand-50');
+            btn.classList.add('text-slate-500');
+            list.classList.add('hidden');
+        }
+    });
+}
+
+function handleGiveAccess(instituteName) {
+    const modal = document.getElementById('share-modal');
+    const nameSpan = document.getElementById('modal-institute-name');
+    const select = document.getElementById('share-doc-select');
+
+    nameSpan.textContent = instituteName;
+    modal.dataset.institute = instituteName; // Store for confirm
+    
+    // Populate docs
+    select.innerHTML = '<option value="">-- Choose a document --</option>';
+    userDocuments.forEach(doc => {
+        if (doc.status === 'Verified') {
+            const opt = document.createElement('option');
+            opt.value = doc.id;
+            opt.textContent = doc.name;
+            select.appendChild(opt);
+        }
+    });
+
+    modal.classList.remove('hidden');
+}
+
+function closeShareModal() {
+    document.getElementById('share-modal').classList.add('hidden');
+}
+
+async function confirmShare() {
+    const modal = document.getElementById('share-modal');
+    const instituteName = modal.dataset.institute;
+    const docId = document.getElementById('share-doc-select').value;
+    
+    if (!docId) {
+        showToast('Please select a document', 'error');
+        return;
+    }
+
+    if (!window.ethereum) {
+        showToast('MetaMask is required', 'error');
+        return;
+    }
+
+    closeShareModal();
+    toggleLoading(true);
+
+    try {
+        // Simulate Transaction
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const from = accounts[0];
+        
+        // Mock sign just for effect (or use personal_sign)
+        // We'll just assume success if we got accounts for this demo to be faster
+        // Or we can do a dummy signature to look real
+        
+        // Creating a dummy transaction hash
+        const mockTxHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+        
+        // Save to local storage
+        const shares = JSON.parse(localStorage.getItem('share_active_shares') || '[]');
+        const doc = userDocuments.find(d => d.id === docId);
+        
+        shares.push({
+            institute: instituteName,
+            docName: doc.name,
+            docHash: doc.documentCID,
+            expiry: Date.now() + (48 * 60 * 60 * 1000), // 48 hours
+            txHash: mockTxHash
+        });
+        
+        localStorage.setItem('share_active_shares', JSON.stringify(shares));
+        
+        // Show success screen (Overlay)
+        showAccessGranted(instituteName, doc.name, mockTxHash);
+        
+        // Update UI
+        updateTimers();
+        
+    } catch (error) {
+        console.error(error);
+        showToast('Transaction rejected', 'error');
+    } finally {
+        toggleLoading(false);
+    }
+}
+
+function showAccessGranted(institute, docName, txHash) {
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 bg-slate-900/90 z-[60] flex items-center justify-center p-4 animate-fade-in';
+    overlay.innerHTML = `
+        <div class="bg-white rounded-3xl p-8 max-w-lg w-full text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-400 to-emerald-500"></div>
+            
+            <div class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 animate-bounce-soft">
+                ✅
+            </div>
+            
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Access Granted!</h2>
+            <p class="text-slate-600 mb-8">
+                You have successfully shared <strong>${docName}</strong> with <strong>${institute}</strong>.
+            </p>
+            
+            <div class="bg-slate-50 rounded-xl p-4 text-left space-y-3 mb-8 border border-slate-100">
+                <div class="flex justify-between">
+                    <span class="text-xs text-slate-500 uppercase tracking-wider">Validity</span>
+                    <span class="text-sm font-semibold text-brand-600">48 Hours</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-xs text-slate-500 uppercase tracking-wider">Transaction ID</span>
+                    <span class="text-xs font-mono text-slate-700" title="${txHash}">${txHash.substring(0, 10)}...${txHash.substring(txHash.length - 8)}</span>
+                </div>
+            </div>
+
+            <button onclick="this.parentElement.parentElement.remove()" class="w-full bg-slate-900 text-white rounded-xl py-4 font-semibold hover:bg-slate-800 transition-all">
+                Close
+            </button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function updateTimers() {
+    const list = document.getElementById('active-shares-list');
+    const container = document.getElementById('active-shares-container');
+    if (!list) return;
+
+    let shares = JSON.parse(localStorage.getItem('share_active_shares') || '[]');
+    const now = Date.now();
+    
+    // Filter expired
+    const validShares = shares.filter(s => s.expiry > now);
+    
+    if (validShares.length !== shares.length) {
+        localStorage.setItem('share_active_shares', JSON.stringify(validShares));
+        shares = validShares; // Update ref
+    }
+    
+    if (shares.length === 0) {
+        container.classList.add('hidden');
+        return;
+    }
+    
+    container.classList.remove('hidden');
+    list.innerHTML = shares.map(share => {
+        const diff = share.expiry - now;
+        
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        
+        return `
+            <div class="bg-brand-900 text-white p-4 rounded-xl flex items-center justify-between shadow-lg shadow-brand-900/20">
+                <div>
+                    <div class="text-xs text-brand-300 mb-1">Shared with</div>
+                    <div class="font-semibold">${share.institute}</div>
+                    <div class="text-xs text-brand-200 mt-1">${share.docName}</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-xs text-brand-300 mb-1">Expires in</div>
+                    <div class="text-xl font-mono font-bold tracking-widest text-emerald-400">
+                        ${timeString}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+window.handleGiveAccess = handleGiveAccess;
+window.closeShareModal = closeShareModal;
+window.confirmShare = confirmShare;
+window.switchShareTab = switchShareTab;

@@ -256,7 +256,7 @@ let userDocuments = [];
 let userStatistics = {};
 let isLoading = false;
 let isEmailVerified = false;
-let generatedOTP = null;
+// OTP is generated and stored server-side; not tracked in frontend
 
 // --- UTILITY FUNCTIONS ---
 
@@ -400,40 +400,50 @@ function togglePasswordVisibility(inputId) {
 }
 
 /**
- * Send OTP to email (Mock)
+ * Send OTP to email via backend (Gmail)
  */
-/**
- * Send OTP to email
- */
-/**
- * Send OTP to email (Simulated)
- */
-function sendEmailOTP() {
+async function sendEmailOTP() {
     const emailInput = document.getElementById('signup-email');
     const email = emailInput.value;
-    
+
     if (!email || !email.includes('@')) {
         showToast('Please enter a valid email address', 'error');
         return;
     }
-    
-    // Generate 6-digit OTP
-    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('Use this OTP to verify:', generatedOTP);
-    
-    // Show OTP input container
-    document.getElementById('email-otp-container').classList.remove('hidden');
+
     const btn = document.getElementById('verify-email-btn');
     btn.disabled = true;
-    btn.textContent = 'Sent';
+    btn.textContent = 'Sending...';
     btn.classList.add('opacity-50', 'cursor-not-allowed');
-    
-    showToast(`Verification code sent to ${email}`, 'success');
-    
-    // Simulate email arrival with popup
-    setTimeout(() => {
-        alert(`Your Verification Code is: ${generatedOTP}`);
-    }, 1000);
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/send-email-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Show OTP input container
+            document.getElementById('email-otp-container').classList.remove('hidden');
+            btn.textContent = 'Sent';
+            showToast(`Verification code sent to ${email}. Please check your inbox.`, 'success');
+        } else {
+            showToast(data.message || 'Failed to send verification code', 'error');
+            // Re-enable button so user can retry
+            btn.disabled = false;
+            btn.textContent = 'Send OTP';
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    } catch (error) {
+        console.error('Send OTP error:', error);
+        showToast('Network error. Could not send verification code.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Send OTP';
+        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
 }
 
 // ============================================
@@ -441,30 +451,43 @@ function sendEmailOTP() {
 // ============================================
 
 /**
- * Verify entered OTP
+ * Verify entered OTP via backend API
  */
-/**
- * Verify entered OTP
- */
-/**
- * Verify entered OTP (Simulated)
- */
-function verifyEmailOTP() {
+async function verifyEmailOTP() {
+    const emailInput = document.getElementById('signup-email');
     const input = document.getElementById('email-otp-input');
-    const enteredOTP = input.value;
-    
-    if (enteredOTP === generatedOTP) {
-        isEmailVerified = true;
-        document.getElementById('email-otp-container').classList.add('hidden');
-        const btn = document.getElementById('verify-email-btn');
-        btn.textContent = 'Verified';
-        btn.classList.remove('bg-slate-800', 'opacity-50', 'cursor-not-allowed');
-        btn.classList.add('bg-green-600');
-        document.getElementById('signup-email').readOnly = true;
-        
-        showToast('Email verified successfully!', 'success');
-    } else {
-        showToast('Invalid verification code', 'error');
+    const email = emailInput.value;
+    const otp = input.value.trim();
+
+    if (!otp) {
+        showToast('Please enter the verification code', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/verify-email-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, otp })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            isEmailVerified = true;
+            document.getElementById('email-otp-container').classList.add('hidden');
+            const btn = document.getElementById('verify-email-btn');
+            btn.textContent = 'Verified ✓';
+            btn.classList.remove('bg-slate-800', 'opacity-50', 'cursor-not-allowed');
+            btn.classList.add('bg-green-600');
+            document.getElementById('signup-email').readOnly = true;
+            showToast('Email verified successfully!', 'success');
+        } else {
+            showToast(data.message || 'Invalid or expired verification code', 'error');
+        }
+    } catch (error) {
+        console.error('Verify OTP error:', error);
+        showToast('Network error. Could not verify code.', 'error');
     }
 }
 
@@ -535,74 +558,121 @@ function switchAuthTab(tab) {
 }
 
 /**
- * Update country select display
+ * Build and render all country rows into the dropdown list
  */
-function updateCountrySelectDisplay() {
-    const select = document.getElementById('country-code');
-    if (!select) return;
+function populateCountryCodes() {
+    const list = document.getElementById('country-list');
+    if (!list) return;
 
-    Array.from(select.options).forEach(option => {
-        if (option.disabled || !option.dataset.short) return;
+    // Priority countries shown at top
+    const priority = ['IN', 'US', 'GB', 'AE', 'CA', 'AU'];
+    const ordered = [
+        ...priority.map(c => COUNTRY_CODES.find(x => x.code === c)).filter(Boolean),
+        ...COUNTRY_CODES.filter(x => !priority.includes(x.code))
+    ];
 
-        if (option.selected) {
-            option.textContent = option.dataset.short;
-        } else {
-            option.textContent = option.dataset.full;
+    list.innerHTML = ordered.map(c => `
+        <li>
+            <button type="button"
+                onclick="selectCountry('${c.dial_code}', '${c.flag}', '${c.name.replace(/'/g, "\\'")}')"
+                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-brand-50 hover:text-brand-700 transition-colors text-left"
+                data-name="${c.name.toLowerCase()}" data-code="${c.dial_code}">
+                <span class="text-lg">${c.flag}</span>
+                <span class="flex-1 truncate">${c.name}</span>
+                <span class="text-slate-400 font-mono text-xs">${c.dial_code}</span>
+            </button>
+        </li>`).join('');
+
+    // Default selection: India
+    selectCountry('+91', '🇮🇳', 'India');
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        const picker = document.getElementById('country-picker');
+        if (picker && !picker.contains(e.target)) {
+            closeCountryDropdown();
         }
     });
 }
 
 /**
- * Populate country codes
+ * Toggle the country dropdown open/closed
  */
-function populateCountryCodes() {
-    const select = document.getElementById('country-code');
-    if (!select) return;
-    
-    // Clear existing
-    select.innerHTML = '';
-    
-    // Helper to create option
-    const addOption = (country) => {
-         const option = document.createElement('option');
-         option.value = country.dial_code;
-         
-         const fullText = `${country.flag} ${country.name} (${country.dial_code})`;
-         const shortText = `${country.flag} ${country.dial_code}`;
-         
-         option.dataset.full = fullText;
-         option.dataset.short = shortText;
-         option.textContent = fullText; // Default to full
-         
-         select.appendChild(option);
-    };
-    
-    // Add common ones
-    const priority = ['IN', 'US', 'GB', 'AE', 'CA', 'AU'];
-    priority.forEach(code => {
-        const country = COUNTRY_CODES.find(c => c.code === code);
-        if (country) addOption(country);
-    });
+function toggleCountryDropdown() {
+    const dropdown = document.getElementById('country-dropdown');
+    const searchInput = document.getElementById('country-search');
+    if (!dropdown) return;
 
-    // Separator
-    const separator = document.createElement('option');
-    separator.disabled = true;
-    separator.textContent = '──────────';
-    select.appendChild(separator);
-
-    // Add others
-    COUNTRY_CODES.forEach(country => {
-        if (!priority.includes(country.code)) {
-            addOption(country);
-        }
-    });
-
-    // Add change listener to update view
-    select.onchange = updateCountrySelectDisplay;
-    
-    // Set initial state
-    updateCountrySelectDisplay();
+    if (dropdown.classList.contains('hidden')) {
+        dropdown.classList.remove('hidden');
+        // Clear and focus search
+        searchInput.value = '';
+        filterCountries('');
+        setTimeout(() => searchInput.focus(), 50);
+    } else {
+        closeCountryDropdown();
+    }
 }
+
+/**
+ * Close the country dropdown
+ */
+function closeCountryDropdown() {
+    const dropdown = document.getElementById('country-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+/**
+ * Filter the country list based on search query
+ * @param {string} query
+ */
+function filterCountries(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#country-list li button');
+    let visibleCount = 0;
+
+    items.forEach(btn => {
+        const name = btn.dataset.name || '';
+        const code = btn.dataset.code || '';
+        const matches = !q || name.includes(q) || code.includes(q);
+        btn.closest('li').style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+    });
+
+    // Show "no results" message if nothing matches
+    const noResult = document.getElementById('country-no-result');
+    if (visibleCount === 0 && !noResult) {
+        const msg = document.createElement('li');
+        msg.id = 'country-no-result';
+        msg.className = 'px-4 py-3 text-sm text-slate-400 text-center';
+        msg.textContent = 'No country found';
+        document.getElementById('country-list').appendChild(msg);
+    } else if (visibleCount > 0 && noResult) {
+        noResult.remove();
+    }
+}
+
+/**
+ * Select a country from the dropdown and update the UI
+ * @param {string} dialCode  e.g. "+91"
+ * @param {string} flag      e.g. "🇮🇳"
+ * @param {string} name      e.g. "India"
+ */
+function selectCountry(dialCode, flag, name) {
+    // Update hidden field (used by handleSignup)
+    const hidden = document.getElementById('country-code');
+    if (hidden) hidden.value = dialCode;
+
+    // Update button display
+    const flagEl = document.getElementById('country-picker-flag');
+    const codeEl = document.getElementById('country-picker-code');
+    if (flagEl) flagEl.textContent = flag;
+    if (codeEl) codeEl.textContent = dialCode;
+
+    closeCountryDropdown();
+}
+
+
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');

@@ -261,11 +261,86 @@ app.post("/api/auth/send-email-otp", async (req, res) => {
         // Save new OTP
         await new OTP({ email, otp }).save();
 
+        const otpSpaced = otp.split('').join(' ');
+        const htmlBody = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Email Verification</title>
+</head>
+<body style="margin:0;padding:0;background:#f4f6fb;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6fb;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+          
+          <!-- HEADER -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#2563eb 0%,#1e40af 100%);padding:36px 40px;text-align:center;">
+              <div style="font-size:36px;margin-bottom:10px;">🔐</div>
+              <h1 style="margin:0;color:#ffffff;font-size:26px;font-weight:700;letter-spacing:0.5px;">Email Verification</h1>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td style="padding:36px 40px 28px;">
+              <p style="margin:0 0 28px;color:#4b5563;font-size:15px;text-align:center;line-height:1.6;">
+                You're creating a new account on the <strong>Document Verification Portal</strong>.<br/>
+                Use the code below to verify your email address.
+              </p>
+
+              <!-- OTP BOX -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background:#f0f4ff;border:2px dashed #3b82f6;border-radius:12px;padding:28px 20px;text-align:center;">
+                    <p style="margin:0 0 8px;color:#6b7280;font-size:13px;letter-spacing:0.5px;text-transform:uppercase;">Your verification code</p>
+                    <p style="margin:0 0 8px;color:#1e3a8a;font-size:40px;font-weight:800;letter-spacing:12px;font-family:monospace;">${otpSpaced}</p>
+                    <p style="margin:0;color:#6b7280;font-size:13px;">Expires in <strong style="color:#1e40af;">5 minutes</strong></p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- SECURITY NOTICE -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
+                <tr>
+                  <td style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:14px 18px;">
+                    <p style="margin:0;color:#92400e;font-size:13.5px;">
+                      <strong>Security Notice:</strong> Never share this code. We will never ask for it.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:28px 0 0;color:#9ca3af;font-size:12px;text-align:center;">
+                If you didn't request this, you can safely ignore this email.
+              </p>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:18px 40px;text-align:center;">
+              <p style="margin:0;color:#9ca3af;font-size:12px;">
+                &copy; ${new Date().getFullYear()} Document Verification Portal &nbsp;|&nbsp; This is an automated message
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: `"Document Verification Portal" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: 'Your Document Portal Verification Code',
-            text: `Your verification code is: ${otp}\n\nThis code will expire in 5 minutes.`
+            subject: '🔐 Your Verification Code – Document Portal',
+            text: `Your verification code is: ${otp}\n\nThis code will expire in 5 minutes.\n\nSecurity Notice: Never share this code. We will never ask for it.`,
+            html: htmlBody
         };
 
         console.log(`🔧 Attempting to send email...`);
@@ -278,14 +353,9 @@ app.post("/api/auth/send-email-otp", async (req, res) => {
             res.json({ message: "OTP sent successfully" });
         } catch (emailError) {
             console.error("❌ Gmail Send Failed:", emailError.message);
-            console.log("⚠️ FALLBACK MODE ACTIVATED");
-            console.log(`🔒 YOUR OTP CODE IS: ${otp}`);
-            console.log("⚠️ Use this code to verify (since email failed).");
-            
-            // Return success anyway so frontend works
-            res.json({ 
-                message: "Email failed, check terminal for OTP (Dev Mode)", 
-                devOtp: otp 
+            // Never expose OTP to the client
+            res.status(500).json({ 
+                message: "Failed to send verification email. Please check your email address or try again later."
             });
         }
     } catch (error) {
